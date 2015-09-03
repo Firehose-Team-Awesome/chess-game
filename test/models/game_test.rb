@@ -73,7 +73,7 @@ class GameTest < ActiveSupport::TestCase
 	test "populate black queen - 1 of 1" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
 		expected = "Queen0"
-		queen = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+		queen = game.pieces.where(:pos_x => 4).where(:pos_y => 0).first
 		actual = queen.type.to_s + queen.color.to_s
 		assert_equal expected, actual
 	end
@@ -84,7 +84,7 @@ class GameTest < ActiveSupport::TestCase
 	test "populate black king 1 of 1" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
 		expected = "King0"
-		king = game.pieces.where(:pos_x => 4).where(:pos_y => 0).first
+		king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
 		actual = king.type.to_s + king.color.to_s
 		assert_equal expected, actual
 	end
@@ -224,7 +224,7 @@ class GameTest < ActiveSupport::TestCase
 	test "populate white queen - 1 of 1" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
 		expected = "Queen1"
-		queen = game.pieces.where(:pos_x => 4).where(:pos_y => 7).first
+		queen = game.pieces.where(:pos_x => 3).where(:pos_y => 7).first
 		actual = queen.type.to_s + queen.color.to_s
 		assert_equal expected, actual
 	end
@@ -235,7 +235,7 @@ class GameTest < ActiveSupport::TestCase
 	test "populate white king 1 of 1" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
 		expected = "King1"
-		king = game.pieces.where(:pos_x => 3).where(:pos_y => 7).first
+		king = game.pieces.where(:pos_x => 4).where(:pos_y => 7).first
 		actual = king.type.to_s + king.color.to_s
 		assert_equal expected, actual
 	end

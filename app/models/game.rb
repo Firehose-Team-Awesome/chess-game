@@ -76,7 +76,7 @@ class Game < ActiveRecord::Base
 		######create queens######
 		Piece.create!(
 			:type => "Queen",
-			:pos_x => 3,
+			:pos_x => 4,
 			:pos_y => 0,
 			:color => 0,
 			:game_id => game
@@ -84,7 +84,7 @@ class Game < ActiveRecord::Base
 
 		Piece.create!(
 			:type => "Queen",
-			:pos_x => 4,
+			:pos_x => 3,
 			:pos_y => 7,
 			:color => 1,
 			:game_id => game
@@ -93,7 +93,7 @@ class Game < ActiveRecord::Base
 		######create kings######
 		Piece.create!(
 			:type => "King",
-			:pos_x => 4,
+			:pos_x => 3,
 			:pos_y => 0,
 			:color => 0,
 			:game_id => game
@@ -101,7 +101,7 @@ class Game < ActiveRecord::Base
 
 		Piece.create!(
 			:type => "King",
-			:pos_x => 3,
+			:pos_x => 4,
 			:pos_y => 7,
 			:color => 1,
 			:game_id => game
