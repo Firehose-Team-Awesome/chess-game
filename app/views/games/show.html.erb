@@ -6,8 +6,8 @@
       <% 7.downto(0) do |row| %>
         <tr>
           <% 0.upto(7) do |col| %>
-            <td>
-              
+            <td id='<%= "#{col}-#{row}" %>'>
+              <%= link_to 'PIECE', '#', :class => 'draggable' %>
             </td>
           <% end %><!--end column-->
         </tr>
@@ -18,3 +18,18 @@
 </div>
 
 <div class='clear'></div>
+
+<script>
+  $(function() {
+    $( ".draggable" ).draggable();
+    
+    $("td").droppable({
+      drop: function( event, ui ) {
+        $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+      }
+    });
+
+  });
+
+
+  </script>
