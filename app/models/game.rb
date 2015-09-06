@@ -10,10 +10,9 @@ class Game < ActiveRecord::Base
  	def populate_board!
  		game = Game.last.id
 	
-		######create rooks######
+		#####create rooks######
 		0.step(7,7) do |x|
-			Piece.create!(
-				:type => "Rook",
+			Rook.create!(
 				:pos_x => x,
 				:pos_y => 0,
 				:color => 0,
@@ -22,8 +21,7 @@ class Game < ActiveRecord::Base
 		end
 		
 		0.step(7,7) do |x|
-			Piece.create!(
-				:type => "Rook",
+			Rook.create!(
 				:pos_x => x,
 				:pos_y => 7,
 				:color => 1,
@@ -33,8 +31,7 @@ class Game < ActiveRecord::Base
 
 		######create knights######
 		1.step(6,5) do |x|
-			Piece.create!(
-				:type => "Knight",
+			Knight.create!(
 				:pos_x => x,
 				:pos_y => 0,
 				:color => 0,
@@ -43,8 +40,7 @@ class Game < ActiveRecord::Base
 		end
 		
 		1.step(6,5) do |x|
-			Piece.create!(
-				:type => "Knight",
+			Knight.create!(
 				:pos_x => x,
 				:pos_y => 7,
 				:color => 1,
@@ -54,8 +50,7 @@ class Game < ActiveRecord::Base
 
 		######create bishops######
 		2.step(5,3) do |x|
-			Piece.create!(
-				:type => "Bishop",
+			Bishop.create!(
 				:pos_x => x,
 				:pos_y => 0,
 				:color => 0,
@@ -64,8 +59,7 @@ class Game < ActiveRecord::Base
 		end
 		
 		2.step(5,3) do |x|
-			Piece.create!(
-				:type => "Bishop",
+			Bishop.create!(
 				:pos_x => x,
 				:pos_y => 7,
 				:color => 1,
@@ -74,16 +68,14 @@ class Game < ActiveRecord::Base
 		end	
 
 		######create queens######
-		Piece.create!(
-			:type => "Queen",
+		Queen.create!(
 			:pos_x => 4,
 			:pos_y => 0,
 			:color => 0,
 			:game_id => game
 		)
 
-		Piece.create!(
-			:type => "Queen",
+		Queen.create!(
 			:pos_x => 3,
 			:pos_y => 7,
 			:color => 1,
@@ -91,16 +83,14 @@ class Game < ActiveRecord::Base
 		)
 
 		######create kings######
-		Piece.create!(
-			:type => "King",
+		King.create!(
 			:pos_x => 3,
 			:pos_y => 0,
 			:color => 0,
 			:game_id => game
 		)
 
-		Piece.create!(
-			:type => "King",
+		King.create!(
 			:pos_x => 4,
 			:pos_y => 7,
 			:color => 1,
@@ -109,8 +99,7 @@ class Game < ActiveRecord::Base
 
 		######create pawns######
 		0.step(7,1) do |x|
-			Piece.create!(
-				:type => "Pawn",
+			Pawn.create!(
 				:pos_x => x,
 				:pos_y => 1,
 				:color => 0,
@@ -119,8 +108,7 @@ class Game < ActiveRecord::Base
 		end
 		
 		0.step(7,1) do |x|
-			Piece.create!(
-				:type => "Pawn",
+			Pawn.create!(
 				:pos_x => x,
 				:pos_y => 6,
 				:color => 1,
