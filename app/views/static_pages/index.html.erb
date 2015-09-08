@@ -1,1 +1,8 @@
 <h1> Welcome to Chess Game </h1>
+
+<% @games.each do |game| %>
+	<% if game.white_uid == nil || game.black_uid == nil %>
+		<%= game.game_name %>
+		<br/>
+	<% end %>
+<% end %>
