@@ -7,7 +7,11 @@
         <tr>
           <% 0.upto(7) do |col| %>
             <td id='<%= "#{col}-#{row}" %>'>
-              <%= link_to 'PIECE', '#', :class => 'draggable' %>
+              <% @pieces.each do |piece| %>
+                <% if piece.pos_x == col && piece.pos_y == row %>
+                  <%= link_to image_tag(piece.image, class: 'img-responsive piece'), piece_path(piece), class: 'piece_a draggable', remote: true %>
+                <% end %>
+              <% end %><!-- end pieces.each -->
             </td>
           <% end %><!--end column-->
         </tr>
