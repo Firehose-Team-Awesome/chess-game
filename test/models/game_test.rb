@@ -202,7 +202,7 @@ class GameTest < ActiveSupport::TestCase
 
 	test "populate white queen - 1 of 1" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
-		queen = game.pieces.where(:pos_x => 3).where(:pos_y => 7).first
+		queen = game.pieces.where(:pos_x => 4).where(:pos_y => 7).first
 		assert_equal "Queen", queen.type.to_s
 		assert_equal 1, queen.color
 	end
@@ -212,7 +212,7 @@ class GameTest < ActiveSupport::TestCase
 
 	test "populate white king 1 of 1" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
-		king = game.pieces.where(:pos_x => 4).where(:pos_y => 7).first
+		king = game.pieces.where(:pos_x => 3).where(:pos_y => 7).first
 		assert_equal "King", king.type.to_s
 		assert_equal 1, king.color
 	end
