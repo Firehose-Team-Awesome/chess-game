@@ -94,7 +94,7 @@ class Game < ActiveRecord::Base
 		)
 
 		Queen.create!(
-			:pos_x => 3,
+			:pos_x => 4,
 			:pos_y => 7,
 			:color => 1,
 			:game_id => game,
@@ -113,7 +113,7 @@ class Game < ActiveRecord::Base
 		)
 
 		King.create!(
-			:pos_x => 4,
+			:pos_x => 3,
 			:pos_y => 7,
 			:color => 1,
 			:game_id => game,
