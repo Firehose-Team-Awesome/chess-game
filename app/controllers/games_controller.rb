@@ -1,5 +1,4 @@
 class GamesController < ApplicationController
-<<<<<<< HEAD
 
 	def index
 		@games = Game.all
