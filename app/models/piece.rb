@@ -65,7 +65,7 @@ class Piece < ActiveRecord::Base
 
 	#get piece's current (start) position
 	def current_pos
-		return arr[pos_x, pos_y]
+		return arr = [pos_x, pos_y]
 	end
 
 	#check if a move is being made to a new position
