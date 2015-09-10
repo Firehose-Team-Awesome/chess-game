@@ -71,7 +71,7 @@ class Piece < ActiveRecord::Base
 	#check if a move is being made to a new position
 	def new_point?(end_point)
 		end_x, end_y = end_point
-		((pos_x != end_x) || (pos_y != end_y)) ? true : false
+		!(pos_x == end_x && pos_y == end_y) 
 	end
 
 	#check if current position is on board
