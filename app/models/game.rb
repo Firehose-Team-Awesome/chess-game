@@ -116,5 +116,9 @@ class Game < ActiveRecord::Base
 			)
 		end	
 	end
+
+	def self.joinable	
+		where(Game.arel_table[:white_uid].eq(nil).or(Game.arel_table[:black_uid].eq(nil)))
+	end
 end
 

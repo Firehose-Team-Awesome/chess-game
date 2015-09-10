@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+<<<<<<< HEAD
 
 	def index
 		@games = Game.all
@@ -21,6 +22,5 @@ class GamesController < ApplicationController
 	def game_params
 		params.require(:game).permit(:black_uid)
 	end
-
 
 end
