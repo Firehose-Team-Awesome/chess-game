@@ -6,8 +6,12 @@
       <% 7.downto(0) do |row| %>
         <tr>
           <% 0.upto(7) do |col| %>
-            <td>
-              
+            <td id='<%= "#{col}-#{row}" %>'>
+              <% @pieces.each do |piece| %>
+                <% if piece.pos_x == col && piece.pos_y == row %>
+                  <%= link_to image_tag(piece.image, class: 'img-responsive piece'), piece_path(piece), class: 'piece_a draggable', remote: true %>
+                <% end %>
+              <% end %><!-- end pieces.each -->
             </td>
           <% end %><!--end column-->
         </tr>
@@ -18,3 +22,18 @@
 </div>
 
 <div class='clear'></div>
+
+<script>
+  $(function() {
+    $( ".draggable" ).draggable();
+    
+    $("td").droppable({
+      drop: function( event, ui ) {
+        $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+      }
+    });
+
+  });
+
+
+  </script>
