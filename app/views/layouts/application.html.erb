@@ -8,12 +8,31 @@
 </head>
 <body>
 
-<% if notice.present? %>
-  <p class="alert alert-info"><%= notice %></p>
-<% end %>
-<% if alert.present? %>
-  <p class="alert alert-danger"><%= alert %></p>
-<% end %>
+
+<div class="nav-container">
+  <h3>
+  	<div style="float:left; padding-right:30px;">
+    	<%= link_to 'CHESS GAME', root_path %>
+    </div>
+  	<small>
+  			<%= link_to 'Join Game', games_path %>
+  	</small>
+  </h3>
+</div>
+
+<br /><br />
+
+
+<div class="col-xs-10 col-xs-offset-1">
+	<% if notice.present? %>
+	  <p class="alert alert-info"><%= notice %></p>
+	<% end %>
+	<% if alert.present? %>
+	  <p class="alert alert-danger"><%= alert %></p>
+	<% end %>
+</div>
+
+
 
 <%= yield %>
 
