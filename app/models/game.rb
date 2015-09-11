@@ -7,6 +7,10 @@ class Game < ActiveRecord::Base
 
   after_create :populate_board!
   
+# 0 = black
+# 1 = white
+
+
  	def populate_board!
  		game = Game.last.id
 	
@@ -16,7 +20,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 0,
 				:color => 0,
-				:game_id => game
+				:game_id => game,
+				:image => 'rook-black.png',
+				:active => 1
 			)
 		end
 		
@@ -25,7 +31,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 7,
 				:color => 1,
-				:game_id => game
+				:game_id => game,
+				:image => 'rook-white.png',
+				:active => 1
 			)
 		end
 
@@ -35,7 +43,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 0,
 				:color => 0,
-				:game_id => game
+				:game_id => game,
+				:image => 'knight-black.png',
+				:active => 1
 			)
 		end
 		
@@ -44,7 +54,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 7,
 				:color => 1,
-				:game_id => game
+				:game_id => game,
+				:image => 'knight-white.png',
+				:active => 1				
 			)
 		end
 
@@ -54,7 +66,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 0,
 				:color => 0,
-				:game_id => game
+				:game_id => game,
+				:image => 'bishop-black.png',
+				:active => 1				
 			)
 		end
 		
@@ -63,7 +77,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 7,
 				:color => 1,
-				:game_id => game
+				:game_id => game,
+				:image => 'bishop-white.png',
+				:active => 1
 			)
 		end	
 
@@ -72,14 +88,18 @@ class Game < ActiveRecord::Base
 			:pos_x => 4,
 			:pos_y => 0,
 			:color => 0,
-			:game_id => game
+			:game_id => game,
+			:image => 'queen-black.png',
+			:active => 1
 		)
 
 		Queen.create!(
-			:pos_x => 3,
+			:pos_x => 4,
 			:pos_y => 7,
 			:color => 1,
-			:game_id => game
+			:game_id => game,
+			:image => 'queen-white.png',
+			:active => 1
 		)
 
 		######create kings######
@@ -87,14 +107,18 @@ class Game < ActiveRecord::Base
 			:pos_x => 3,
 			:pos_y => 0,
 			:color => 0,
-			:game_id => game
+			:game_id => game,
+			:image => 'king-black.png',
+			:active => 1
 		)
 
 		King.create!(
-			:pos_x => 4,
+			:pos_x => 3,
 			:pos_y => 7,
 			:color => 1,
-			:game_id => game
+			:game_id => game,
+			:image => 'king-white.png',
+			:active => 1
 		)
 
 		######create pawns######
@@ -103,7 +127,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 1,
 				:color => 0,
-				:game_id => game
+				:game_id => game,
+				:image => 'pawn-black.png',
+				:active => 1
 			)
 		end
 		
@@ -112,7 +138,9 @@ class Game < ActiveRecord::Base
 				:pos_x => x,
 				:pos_y => 6,
 				:color => 1,
-				:game_id => game
+				:game_id => game,
+				:image => 'pawn-white.png',
+				:active => 1
 			)
 		end	
 	end
