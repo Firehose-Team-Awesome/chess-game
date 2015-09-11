@@ -63,4 +63,25 @@ class Piece < ActiveRecord::Base
 		end
 	end
 
+	#get piece's current (start) position
+	def current_pos
+		return arr = [pos_x, pos_y]
+	end
+
+	#check if a move is being made to a new position
+	def new_point?(end_point)
+		end_x, end_y = end_point
+		!(pos_x == end_x && pos_y == end_y) 
+	end
+
+	#check if current position is on board
+	def on_board?(end_point)
+		end_x, end_y = end_point
+		return false if pos_x < 0 || pos_x > 7
+		return false if pos_y < 0 || pos_y > 7
+		return false if end_x < 0 || end_x > 7
+		return false if end_y < 0 || end_y > 7
+		return true
+	end
+
 end
