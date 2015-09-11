@@ -84,4 +84,13 @@ class Piece < ActiveRecord::Base
 		return true
 	end
 
+	def do_move!(pos_x, pos_y)
+		self.update_attributes(pos_x: pos_x, pos_y: pos_y)
+
+		if color == 'white'
+      @not_color = 'black'
+    else @not_color = 'white'
+   	end
+  end
+
 end
