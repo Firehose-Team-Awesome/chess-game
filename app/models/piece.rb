@@ -1,6 +1,8 @@
 class Piece < ActiveRecord::Base
 	belongs_to :game
 
+	attr_reader :valid, :not_color
+
 	scope :pawns, -> { where(type: 'Pawn') }
 	scope :knights, -> { where(type: 'Knight') }
 	scope :bishops, -> { where(type: 'Bishop') }
@@ -87,10 +89,8 @@ class Piece < ActiveRecord::Base
 	def do_move!(pos_x, pos_y)
 		self.update_attributes(pos_x: pos_x, pos_y: pos_y)
 
-		if color == 'white'
-      @not_color = 'black'
-    else @not_color = 'white'
-   	end
+ 
+   	
   end
 
 end
