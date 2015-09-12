@@ -7,11 +7,6 @@ class GamesController < ApplicationController
     @white_player = User.find_by(id: @game.white_uid)
   end
 
-	def index
-		@games = Game.all
-		@open_games = Game.where(:black_uid => nil)
-	end
-
 	def edit
 		@game = Game.find(params[:id])
 	end
