@@ -25,15 +25,30 @@
 
 <script>
   $(function() {
-    $( ".draggable" ).draggable();
-    
-    $("td").droppable({
-      drop: function( event, ui ) {
-        $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
-      }
-    });
-
-  });
-
-
-  </script>
+     $( ".draggable" ).draggable();
+     activeClass: "ui-state-highlight",
+     $( "td" ).droppable({
+       drop: function( event, ui ) {
+         //make piece snappable to the destination
+         $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+         $.ajax( {  type: 'PUT',
+                    url: $(ui.draggable).attr("href"),
+                    dataType: 'json',
+                    data: {
+                      pos_x: this.cellIndex,
+                      pos_y: (7-(this.parentNode.rowIndex))
+                  }
+                }).success(function(data){
+                    if (data.valid === false) {
+                      alert("Invalid move. Try again.");
+                      window.location.reload();
+                    }
+                    if (data.valid === true) {
+                      alert("It is now "+ data.not_color + " player's turn.");
+                      window.location.reload();
+                    }
+                }); //post
+       } //drop
+     }); //droppable
+   }); //function
+ </script>

@@ -1,6 +1,8 @@
 class Piece < ActiveRecord::Base
 	belongs_to :game
 
+	attr_reader :valid, :not_color
+
 	scope :pawns, -> { where(type: 'Pawn') }
 	scope :knights, -> { where(type: 'Knight') }
 	scope :bishops, -> { where(type: 'Bishop') }
@@ -83,5 +85,12 @@ class Piece < ActiveRecord::Base
 		return false if end_y < 0 || end_y > 7
 		return true
 	end
+
+	def do_move!(pos_x, pos_y)
+		self.update_attributes(pos_x: pos_x, pos_y: pos_y)
+
+ 
+   	
+  end
 
 end
