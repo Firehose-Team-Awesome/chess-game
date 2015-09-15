@@ -1,6 +1,6 @@
 class Bishop < Piece
 	def valid_move?(end_point)
-		# Define ending coordinates for king
+		# Define ending coordinates for bishop
 		end_x, end_y = end_point
 
 		#check that the start and end points are on the board
