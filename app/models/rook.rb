@@ -15,4 +15,5 @@ class Rook < Piece
 		#if passes previous validations, return true
 		return true
 	end
+	
 end
