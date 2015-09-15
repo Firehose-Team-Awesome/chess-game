@@ -51,4 +51,5 @@ class RookTest < ActiveSupport::TestCase
 		move = rook.valid_move?([3, 6])
 		assert_not move	
 	end
+	
 end
