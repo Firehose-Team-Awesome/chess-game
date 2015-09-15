@@ -13,6 +13,8 @@ class Bishop < Piece
 		(-7..7).each do |i|
 			if self.pos_x + i == end_x && self.pos_y + i == end_y
 				return true
+			elsif self.pos_x + i == end_x && self.pos_y - i == end_y
+				return true
 			end
 		end
 
