@@ -93,9 +93,24 @@ class Piece < ActiveRecord::Base
 
 	def do_move!(pos_x, pos_y)
 		self.update_attributes(pos_x: pos_x, pos_y: pos_y)
+  end
 
- 
-   	
+  def is_occupied?(x, y)
+    game.pieces.where(pos_x: x, pos_y: y, active: true).present?
+  end
+
+  def move_to!(dest_x, dest_y)
+    @game = game
+    if is_occupied?(dest_x, dest_y)
+      @dest_occupied = @game.pieces.find_by(pos_x: dest_x, pos_y: dest_y)
+      if color == @dest_occupied.color
+        fail 'Cannot capture your own piece'
+      else
+        @dest_occupied.update_attributes(active: false)
+        @captured = true
+      end
+    else @captured = false
+    end
   end
 
 end
