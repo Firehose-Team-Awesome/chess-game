@@ -150,10 +150,10 @@ class Game < ActiveRecord::Base
 
 	def is_color_in_check?(color)
 	  king = pieces.where(type: :King, color: color)
-	  if color == Piece::BLACK
-	  	pieces = pieces.where(color: Piece::WHITE, active: true)
+	  if color == Piece::COLORS[:black]
+	  	pieces = pieces.where(color: Piece::COLORS[:white], active: true)
 	  else 
-	  	pieces = pieces.where(color: Piece::BLACK, active: true)
+	  	pieces = pieces.where(color: Piece::COLORS[:black], active: true)
 	  end
 	  in_check = false
 	  pieces.each do |piece|

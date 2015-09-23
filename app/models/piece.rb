@@ -10,8 +10,6 @@ class Piece < ActiveRecord::Base
 	scope :queens, -> { where(type: 'Queen') }
 	scope :kings, -> { where(type: 'King') }
 	
-	BLACK = 0;
-	WHITE = 1;
 	COLORS = {black:0, white:1}
 
 	#define the types of pieces that are subclasses of Piece
