@@ -12,7 +12,7 @@ class Game < ActiveRecord::Base
 
 
  	def populate_board!
- 		game = Game.last.id
+ 		game = self.id
 	
 		#####create rooks######
 		0.step(7,7) do |x|

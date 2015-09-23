@@ -59,7 +59,12 @@ class Piece < ActiveRecord::Base
 				y_array = y_array.reverse
 			end
 			# check current game piece locations for obstruction
-			return game.pieces.where(pos_x: x_array, pos_y: y_array, active: true).present?
+			sql_string = ""
+			x_array.zip(y_array).each do |x,y|
+				sql_string += " ( pos_x = #{x} and pos_y = #{y} and active = true ) or"
+			end
+			sql_string += " false "
+			return game.pieces.where( sql_string ).present?
 		else
 			return error_msg
 		end
