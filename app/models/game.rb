@@ -7,8 +7,7 @@ class Game < ActiveRecord::Base
 
   after_create :populate_board!
   
-# 0 = black
-# 1 = white
+
 
 
  	def populate_board!
@@ -147,6 +146,22 @@ class Game < ActiveRecord::Base
 
 	def self.joinable	
 		where(Game.arel_table[:white_uid].eq(nil).or(Game.arel_table[:black_uid].eq(nil)))
+	end
+
+	def is_color_in_check?(color)
+	  king = pieces.where(type: :King, color: color)
+	  if color == Piece::BLACK
+	  	pieces = pieces.where(color: Piece::WHITE, active: true)
+	  else 
+	  	pieces = pieces.where(color: Piece::BLACK, active: true)
+	  end
+	  in_check = false
+	  pieces.each do |piece|
+	  	if piece.can_move_with_capture?(king.pos_x, king.pos_y)
+	  		in_check = true
+	  	end
+	  end
+	  return in_check
 	end
 end
 

@@ -9,6 +9,10 @@ class Piece < ActiveRecord::Base
 	scope :rooks, -> { where(type: 'Rook') }
 	scope :queens, -> { where(type: 'Queen') }
 	scope :kings, -> { where(type: 'King') }
+	
+	BLACK = 0;
+	WHITE = 1;
+	COLORS = {black:0, white:1}
 
 	#define the types of pieces that are subclasses of Piece
 	def self.types
@@ -99,17 +103,30 @@ class Piece < ActiveRecord::Base
     game.pieces.where(pos_x: x, pos_y: y, active: true).present?
   end
 
+  def can_move_without_capture?(dest_x, dest_y)
+    !is_obstructed?([pos_x, pos_y],[dest_x, dest_y]) && !is_occupied?(dest_x, dest_y) && valid_move([dest_x, dest_y])
+  end
+
+  def can_move_with_capture?(dest_x, dest_y)
+  	dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
+  	return (
+  		!is_obstructed?([pos_x, pos_y],[dest_x, dest_y]) && 
+  		is_occupied?(dest_x, dest_y) &&
+  		valid_move?(dest_x, dest_y) &&
+  		dest_piece.color != color 
+  	)
+  end
+
   def move_to!(dest_x, dest_y)
-    @game = game
-    if is_occupied?(dest_x, dest_y)
-      @dest_occupied = @game.pieces.find_by(pos_x: dest_x, pos_y: dest_y)
-      if color == @dest_occupied.color
-        fail 'Cannot capture your own piece'
-      else
-        @dest_occupied.update_attributes(active: false)
-        @captured = true
-      end
-    else @captured = false
+    if can_move_without_capture?(dest_x, dest_y)
+        update_attributes(pos_x: dest_x, pos_y: dest_y)
+    elsif can_move_with_capture?(dest_x, dest_y)
+    		dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
+    		dest_piece.update_attributes(active: false)
+    		update_attributes(pos_x: dest_x, pos_y: dest_y)
+    		@captured = true
+    else 
+    	@captured = false
     end
   end
 
