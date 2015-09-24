@@ -110,13 +110,13 @@ class Piece < ActiveRecord::Base
   end
 
   def castle_kingside!(rook, king)
-  	king.pos_x = 0
-  	rook.pos_x = 3
+  	king.update_attributes(:pos_x => 0)
+  	rook.update_attributes(:pos_x => 3)
   end
 
   def castle_queenside!(rook, king)
-  	king.pos_x = 7
-  	rook.pos_x = 3
+  	king.update_attributes(:pos_x => 7)
+  	rook.update_attributes(:pos_x => 3)
   end
 
 end

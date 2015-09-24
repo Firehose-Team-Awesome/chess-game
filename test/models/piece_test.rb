@@ -47,8 +47,7 @@ class PieceTest < ActiveSupport::TestCase
     bishop = game.pieces.where(:pos_x => 2).where(:pos_y => 0).first
     bishop.delete
     king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
-    king.pos_x = 2
-    king.updated_at = Time.new.strftime("%Y-%m-%d %H:%M:%S")
+    king.update_attributes(:pos_x => 2)
     rook = game.pieces.where(:pos_x => 0).where(:pos_y => 0).first
     castle = rook.can_castle_kingside?(rook, king)
     assert_not castle
@@ -80,12 +79,21 @@ class PieceTest < ActiveSupport::TestCase
     assert castle
   end
 
-    test "check if castling works in DB" do
+  test "check if kingside castling works in DB" do
     game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
     king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
     rook = game.pieces.where(:pos_x => 0).where(:pos_y => 0).first
     castle = rook.castle_kingside!(rook, king)
     new_king_pos_x = 0
+    assert new_king_pos_x, king.pos_x
+  end
+
+  test "check if queenside castling works in DB" do
+    game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+    king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+    rook = game.pieces.where(:pos_x => 7).where(:pos_y => 0).first
+    castle = rook.castle_queenside!(rook, king)
+    new_king_pos_x = 7
     assert new_king_pos_x, king.pos_x
   end
 
