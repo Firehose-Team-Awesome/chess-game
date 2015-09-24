@@ -3,14 +3,14 @@ require 'test_helper'
 class PieceTest < ActiveSupport::TestCase
 
 	##### TEST CURRENT_POS METHOD ######
-  	test "return current position" do
+  test "return current position" do
 		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
 		king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
 		pos = [3, 0]
 		assert_equal pos, king.current_pos	
 	end
 
-	  test "obstructed?" do
+	test "obstructed?" do
     g = Game.create(white_uid: 1, black_uid: 2)
     piece1 = g.pieces.find_by(pos_x: 0, pos_y: 0)
     piece2 = g.pieces.find_by(pos_x: 2, pos_y: 0)
@@ -27,6 +27,71 @@ class PieceTest < ActiveSupport::TestCase
     assert !piece5.is_obstructed?([2,4],[6,4])
     assert !piece5.is_obstructed?([2,4],[0,4])
   end
+
+  #################################################
+  ################# TEST CASTLING #################
+  #################################################
+
+  test "check if castle is valid (invalid case, obstructed)" do
+    game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+    king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+    rook = game.pieces.where(:pos_x => 0).where(:pos_y => 0).first
+    castle = rook.can_castle_kingside?(rook, king)
+    assert_not castle 
+  end
+
+  test "check if castle is valid (invalid case, king moved)" do
+    game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+    knight = game.pieces.where(:pos_x => 1).where(:pos_y => 0).first
+    knight.delete
+    bishop = game.pieces.where(:pos_x => 2).where(:pos_y => 0).first
+    bishop.delete
+    king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+    king.pos_x = 2
+    king.updated_at = Time.new.strftime("%Y-%m-%d %H:%M:%S")
+    rook = game.pieces.where(:pos_x => 0).where(:pos_y => 0).first
+    castle = rook.can_castle_kingside?(rook, king)
+    assert_not castle
+  end
+
+  test "check if castle is valid (valid case, kingside)" do
+    game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+    knight = game.pieces.where(:pos_x => 1).where(:pos_y => 0).first
+    knight.delete
+    bishop = game.pieces.where(:pos_x => 2).where(:pos_y => 0).first
+    bishop.delete
+    king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+    rook = game.pieces.where(:pos_x => 0).where(:pos_y => 0).first
+    castle = rook.can_castle_kingside?(rook, king)
+    assert castle
+  end
+
+  test "check if castle is valid (valid case, queenside)" do
+    game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+    knight = game.pieces.where(:pos_x => 6).where(:pos_y => 0).first
+    knight.delete
+    bishop = game.pieces.where(:pos_x => 5).where(:pos_y => 0).first
+    bishop.delete
+    queen = game.pieces.where(:pos_x => 4).where(:pos_y => 0).first
+    queen.delete
+    king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+    rook = game.pieces.where(:pos_x => 7).where(:pos_y => 0).first
+    castle = rook.can_castle_queenside?(rook, king)
+    assert castle
+  end
+
+    test "check if castling works in DB" do
+    game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+    king = game.pieces.where(:pos_x => 3).where(:pos_y => 0).first
+    rook = game.pieces.where(:pos_x => 0).where(:pos_y => 0).first
+    castle = rook.castle_kingside!(rook, king)
+    new_king_pos_x = 0
+    assert new_king_pos_x, king.pos_x
+  end
+
+  #################################################
+  #################################################
+  #################################################
 
 
 end
