@@ -92,10 +92,31 @@ class Piece < ActiveRecord::Base
 	end
 
 	def do_move!(pos_x, pos_y)
-		self.update_attributes(pos_x: pos_x, pos_y: pos_y)
+		self.update_attributes(pos_x: pos_x, pos_y: pos_y)  	
+  end
 
- 
-   	
+  def can_castle_kingside?(rook, king)
+		return false if rook.created_at != rook.updated_at
+		return false if king.created_at != king.updated_at
+		return false if rook.is_obstructed?(rook.current_pos, [king.pos_x - 1, king.pos_y])
+		return true
+  end
+
+  def can_castle_queenside?(rook, king)
+		return false if rook.created_at != rook.updated_at
+		return false if king.created_at != king.updated_at
+		return false if rook.is_obstructed?(rook.current_pos, [king.pos_x + 1, king.pos_y])
+		return true
+  end
+
+  def castle_kingside!(rook, king)
+  	king.update_attributes(:pos_x => 0)
+  	rook.update_attributes(:pos_x => 3)
+  end
+
+  def castle_queenside!(rook, king)
+  	king.update_attributes(:pos_x => 7)
+  	rook.update_attributes(:pos_x => 3)
   end
 
 end
