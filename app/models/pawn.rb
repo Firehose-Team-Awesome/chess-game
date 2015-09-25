@@ -1,7 +1,7 @@
 class Pawn < Piece
 
 	#en passant status of self
-	def en_passant_status(end_x, end_y)
+	def update_en_passant_status(end_x, end_y)
 		if (self.pos_y - end_y).abs == 2
 			self.update_attributes(en_passant: true)
 		else
@@ -11,7 +11,7 @@ class Pawn < Piece
 
 	#determine if pawn can capture opposing pawn en passant
 	def can_capture_en_passant(opponent_pawn)
-		if opponent_pawn.en_passant == true && opponent_pawn.updated_at == @game.updated_at
+		if opponent_pawn.en_passant == true && opponent_pawn.updated_at == game.updated_at
 			return true
 		end
 	end
