@@ -13,6 +13,8 @@ class Pawn < Piece
 	def can_capture_en_passant(opponent_pawn)
 		if opponent_pawn.en_passant == true && opponent_pawn.updated_at == game.updated_at
 			return true
+		else
+			return false
 		end
 	end
 
