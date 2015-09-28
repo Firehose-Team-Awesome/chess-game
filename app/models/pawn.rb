@@ -30,12 +30,12 @@ class Pawn < Piece
     end
 
     #check that can't capture vertically, but can capture 1 space away horizontally
-    if (end_x - self.pos_x).abs == 0 #vertical move
+    if (end_x - self.pos_x).abs == 0 #capture vertically
       return false if game.pieces.where(pos_x: end_x, pos_y: end_y, active: true).present?
-    elsif (end_x - self.pos_x).abs == 1
-      return true if game.pieces.where(pos_x: end_x, pos_y: end_y, active: true).present?
-    elsif (end_x - self.pos_x).abs > 1
+    elsif (end_x - self.pos_x).abs == 1 && (end_y - self.pos_y).abs == 0 #horizontal move
       return false
+    elsif (end_x - self.pos_x).abs == 1 && (end_y - self.pos_y).abs > 0 #diagonal move, standard capture
+      return true if game.pieces.where(pos_x: end_x, pos_y: end_y, active: true).present?
     end
 
     #if passes all previous validations, return true
