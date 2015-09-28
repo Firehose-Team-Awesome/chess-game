@@ -1,37 +1,44 @@
 class Pawn < Piece
-def valid_move?(end_x, end_y)
-    if occupied?(end_x, end_y)
-      x_distance = (end_x - pos_x)
-      y_distance = (end_y - pos_y)
-      if color == '1'
-        x_distance.abs == 1 && y_distance == 1
-      elsif color == '0'
-        x_distance.abs == 1 && y_distance == -1
-      end
-    elsif color == '1'
-      if pos_y == 1 || pos_y == 6           # If Pawn at starting position it can move either 1 or 2 places forward
-        x_distance = (end_x - pos_x)
-        y_distance = (end_y - pos_y)
+  def valid_move?(end_point)
+    # Define ending coordinates
+    end_x, end_y = end_point
+    start_point = self.current_pos
 
-        (x_distance == 0 && y_distance == 1) || (x_distance == 0 && y_distance == 2) && !obstructed?([end_x, end_y])
-      else                                  # If Pawn at any other position other than start it can move 1 place forward
-        x_distance = (end_x - pos_x)
-        y_distance = (end_y - pos_y)
+    #check that the start and end points are on the board
+    return false unless self.on_board?(end_point)
+    
+    #check to ensure the piece is not moved to the same location
+    return false unless self.new_point?(end_point)
 
-        (x_distance == 0 && y_distance == 1) && !obstructed?([end_x, end_y])
-      end
-    elsif color == '0'
-      if pos_y == 1 || pos_y == 6           # If Pawn at starting position it can move either 1 or 2 places forward
-        x_distance = (pos_x - end_x)
-        y_distance = (pos_y - end_y)
-
-        (x_distance == 0 && y_distance == 1) || (x_distance == 0 && y_distance == 2) && !obstructed?([end_x, end_y])
-      else                                  # If Pawn at any other position other than start it can move 1 place forward
-        x_distance = (pos_x - end_x)
-        y_distance = (pos_y - end_y)
-
-        (x_distance == 0 && y_distance == 1) && !obstructed?([end_x, end_y])
-      end
+    #check for obstructions in path
+    if end_x == self.pos_x
+      return false if self.is_obstructed?(start_point, end_point)
     end
+
+    #check if first move - 2 vertical spaces allowed, otherwise 1 vertical space allowed
+    if self.created_at == self.updated_at
+      return false if (end_y - self.pos_y).abs > 2
+    else
+      return false if (end_y - self.pos_y).abs > 1
+    end
+
+    #check that pawn is moving 'forward'
+    if color == 0 #black piece, moving up
+      return false if end_y < self.pos_y
+    else #white piece, moving down
+      return false if end_y > self.pos_y
+    end
+
+    #check that can't capture vertically, but can capture 1 space away horizontally
+    if (end_x - self.pos_x).abs == 0 #vertical move
+      return false if game.pieces.where(pos_x: end_x, pos_y: end_y, active: true).present?
+    elsif (end_x - self.pos_x).abs == 1
+      return true if game.pieces.where(pos_x: end_x, pos_y: end_y, active: true).present?
+    elsif (end_x - self.pos_x).abs > 1
+      return false
+    end
+
+    #if passes all previous validations, return true
+    return true 
   end
 end
