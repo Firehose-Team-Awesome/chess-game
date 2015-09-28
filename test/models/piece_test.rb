@@ -101,5 +101,24 @@ class PieceTest < ActiveSupport::TestCase
   #################################################
   #################################################
 
+  #<< TEST CAPTURE >>
+  test "can move with capture" do
+    game = Game.create(:white_uid => 1, :black_uid => 2)
+    pawn = game.pieces.find_by(:pos_x => 0, :pos_y => 1, :type => 'Pawn')
+    pawn.update(:active => false)
+    rook = game.pieces.find_by(:pos_x => 0, :pos_y => 0)
+    bishop = game.pieces.find_by(:pos_x => 2, :pos_y => 7, :type => 'Bishop')
+    bishop.update(:pos_x => 0, :pos_y => 5)
+    assert rook.can_move_with_capture?([rook.pos_x,rook.pos_y],[0,5])
+  end
+ 
+  test "can move without capture" do
+    game = Game.create(:white_uid => 1, :black_uid => 2)
+    pawn = game.pieces.find_by(:pos_x => 0, :pos_y => 1, :type => 'Pawn')
+    pawn.update(:active => false)
+    rook = game.pieces.find_by(:pos_x => 0, :pos_y => 0)
+    assert rook.can_move_without_capture?([rook.pos_x,rook.pos_y],[0,5])
+  end
+
 
 end

@@ -33,8 +33,6 @@ class PiecesController < ApplicationController
     end
   end
 
-
-
   private
 
   def piece_params
