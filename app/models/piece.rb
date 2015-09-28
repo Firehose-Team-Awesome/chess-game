@@ -119,10 +119,11 @@ class Piece < ActiveRecord::Base
   	)
   end
 
-  def move_to!(dest_x, dest_y)
-    if can_move_without_capture?(dest_x, dest_y)
+  def move_to!(start_pos, dest_pos)
+  	dest_x, dest_y = dest_pos
+    if can_move_without_capture?(start_pos, dest_pos)
         update_attributes(pos_x: dest_x, pos_y: dest_y)
-    elsif can_move_with_capture?(dest_x, dest_y)
+    elsif can_move_with_capture?(start_pos, dest_pos)
     		dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
     		dest_piece.update_attributes(active: false)
     		update_attributes(pos_x: dest_x, pos_y: dest_y)
