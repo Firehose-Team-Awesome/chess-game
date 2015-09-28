@@ -17,7 +17,4 @@ class King < Piece
 		#if the space the king is moving into will put it in check, which will also be an
 		#invalid move
 	end
-
-	
-
 end
