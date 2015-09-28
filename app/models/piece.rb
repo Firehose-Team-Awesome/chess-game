@@ -101,16 +101,20 @@ class Piece < ActiveRecord::Base
     game.pieces.where(pos_x: x, pos_y: y, active: true).present?
   end
 
-  def can_move_without_capture?(dest_x, dest_y)
-    !is_obstructed?([pos_x, pos_y],[dest_x, dest_y]) && !is_occupied?(dest_x, dest_y) && valid_move([dest_x, dest_y])
+  def can_move_without_capture?(start_pos,dest_pos)
+  	start_x, start_y = start_pos
+  	dest_x, dest_y = dest_pos
+    !is_obstructed?([start_x, start_y],[dest_x, dest_y]) && !is_occupied?(dest_x, dest_y) && valid_move?([dest_x, dest_y])
   end
 
-  def can_move_with_capture?([start_x, start_y],[dest_x, dest_y])
+  def can_move_with_capture?(start_pos,dest_pos)
+		start_x, start_y = start_pos
+  	dest_x, dest_y = dest_pos
   	dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
   	return (
   		!is_obstructed?([start_x, start_y],[dest_x, dest_y]) && 
   		is_occupied?(dest_x, dest_y) &&
-  		valid_move?(dest_x, dest_y) &&
+  		valid_move?([dest_x, dest_y]) &&
   		dest_piece.color != color 
   	)
   end

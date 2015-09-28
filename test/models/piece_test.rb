@@ -109,7 +109,7 @@ class PieceTest < ActiveSupport::TestCase
     rook = game.pieces.find_by(:pos_x => 0, :pos_y => 0)
     bishop = game.pieces.find_by(:pos_x => 2, :pos_y => 7, :type => 'Bishop')
     bishop.update(:pos_x => 0, :pos_y => 5)
-    assert rook.can_move_with_capture?([rook.pos_x,rook.pos_y],[0,5])
+    assert rook.can_move_with_capture?([0,0],[0,5])
   end
  
   test "can move without capture" do
@@ -117,7 +117,7 @@ class PieceTest < ActiveSupport::TestCase
     pawn = game.pieces.find_by(:pos_x => 0, :pos_y => 1, :type => 'Pawn')
     pawn.update(:active => false)
     rook = game.pieces.find_by(:pos_x => 0, :pos_y => 0)
-    assert rook.can_move_without_capture?([rook.pos_x,rook.pos_y],[0,5])
+    assert rook.can_move_without_capture?([0,0],[0,2])
   end
 
 
