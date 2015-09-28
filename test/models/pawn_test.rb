@@ -107,7 +107,7 @@ class PawnTest < ActiveSupport::TestCase
     game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
     pawn = game.pieces.where(:pos_x => 0).where(:pos_y => 1).first
     pawn.update_attributes(:pos_y => 2)
-    move = pawn.valid_move?([1, 2)
+    move = pawn.valid_move?([1, 2])
     assert_not move
   end
 
