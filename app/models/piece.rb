@@ -92,7 +92,7 @@ class Piece < ActiveRecord::Base
 	end
 
 	def do_move!(pos_x, pos_y)
-		self.update_attributes(pos_x: pos_x, pos_y: pos_y)  	
+		self.update_attributes(pos_x: pos_x, pos_y: pos_y) 	 	
   end
 
   def can_castle_kingside?(rook, king)
