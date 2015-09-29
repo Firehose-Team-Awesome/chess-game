@@ -114,7 +114,7 @@ class Piece < ActiveRecord::Base
   	return (
   		!is_obstructed?([start_x, start_y],[dest_x, dest_y]) && 
   		is_occupied?(dest_x, dest_y) &&
-  		valid_move?([dest_x, dest_y]) &&
+  		#valid_move?([dest_x, dest_y]) &&
   		dest_piece.color != color 
   	)
   end
@@ -127,9 +127,9 @@ class Piece < ActiveRecord::Base
     		dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
     		dest_piece.update_attributes(active: false)
     		update_attributes(pos_x: dest_x, pos_y: dest_y)
-    		@captured = true
+    		captured = true
     else 
-    	@captured = false
+    	captured = false
     end
   end
  

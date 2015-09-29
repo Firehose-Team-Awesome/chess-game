@@ -148,16 +148,18 @@ class Game < ActiveRecord::Base
 		where(Game.arel_table[:white_uid].eq(nil).or(Game.arel_table[:black_uid].eq(nil)))
 	end
 
-	def is_color_in_check?(color)
-	  king = pieces.where(type: :King, color: color)
-	  if color == Piece::COLORS[:black]
-	  	pieces = pieces.where(color: Piece::COLORS[:white], active: true)
-	  else 
-	  	pieces = pieces.where(color: Piece::COLORS[:black], active: true)
+	def is_color_in_check?(test_color)
+	  king = self.pieces.find_by(:type => 'King', :color => test_color)
+	  if test_color == Piece::COLORS[:black]
+	  	opposite_pieces = self.pieces.where(:color => 1, :active => true)
+	  else
+	  	opposite_pieces = self.pieces.where(:color => 0, :active => true)
 	  end
 	  in_check = false
-	  pieces.each do |piece|
-	  	if piece.can_move_with_capture?(king.pos_x, king.pos_y)
+	  opposite_pieces.each do |opposite_piece|
+	  	start_pos = [opposite_piece.pos_x, opposite_piece.pos_y]
+	  	dest_pos = [king.pos_x, king.pos_y]
+	  	if opposite_piece.can_move_with_capture?(start_pos, dest_pos)
 	  		in_check = true
 	  	end
 	  end

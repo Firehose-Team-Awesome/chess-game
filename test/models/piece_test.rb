@@ -158,4 +158,6 @@ class PieceTest < ActiveSupport::TestCase
     bishop.update(:pos_x => 0, :pos_y => 5)
     assert_not rook.move_to!([0,0],[0,5])
   end
+
+  
 end

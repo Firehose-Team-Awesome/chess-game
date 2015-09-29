@@ -276,5 +276,15 @@ class GameTest < ActiveSupport::TestCase
 		assert_equal 1, pawn.color
 	end	
 
-
+	# << COLOR IN CHECK >>
+	test "white in check" do
+		game = Game.create(:white_uid => 1, :black_uid => 1, :game_name => "New Game")
+		temp_fix_pawn_no_validmove = game.pieces.find_by(:type => 'Pawn')
+		temp_fix_pawn_no_validmove.update(:active => false)
+		white_king = game.pieces.find_by(:type => 'King', :color => 1)
+    white_king.update(:pos_x => 0, :pos_y => 3)
+    rook = game.pieces.find_by(:pos_x => 0, :pos_y => 0, :color => 0)
+    rook.update(:pos_x => 0, :pos_y => 2)
+    assert game.is_color_in_check?(white_king.color)
+	end
 end
