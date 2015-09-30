@@ -1,6 +1,7 @@
 class Piece < ActiveRecord::Base
 	belongs_to :game
 
+  attr_accessor :captured
 	attr_reader :valid, :not_color
 
 	scope :pawns, -> { where(type: 'Pawn') }
