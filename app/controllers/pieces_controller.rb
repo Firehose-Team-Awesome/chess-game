@@ -1,4 +1,5 @@
 class PiecesController < ApplicationController
+
 	def show
     @piece = Piece.find(params[:id])
     @pieces = @piece.game.pieces # display all the pieces on the board
@@ -33,13 +34,11 @@ class PiecesController < ApplicationController
         redirect_to game_path(@game)  # redirect to game show page
       end
       format.json do
-        json_result = {valid: valid_move, active: true, not_color: @color}
+        json_result = {valid: true, active: @piece.active, captured: @piece.captured, not_color: @color}
         render json: json_result
       end
     end
   end
-
-
 
   private
 
