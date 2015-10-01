@@ -1,6 +1,7 @@
 class Piece < ActiveRecord::Base
 	belongs_to :game
 
+  attr_accessor :captured
 	attr_reader :valid, :not_color
 
 	scope :pawns, -> { where(type: 'Pawn') }
@@ -9,6 +10,8 @@ class Piece < ActiveRecord::Base
 	scope :rooks, -> { where(type: 'Rook') }
 	scope :queens, -> { where(type: 'Queen') }
 	scope :kings, -> { where(type: 'King') }
+	
+	COLORS = {black:0, white:1}
 
 	#define the types of pieces that are subclasses of Piece
 	def self.types
@@ -93,9 +96,66 @@ class Piece < ActiveRecord::Base
 
 	def do_move!(pos_x, pos_y)
 		self.update_attributes(pos_x: pos_x, pos_y: pos_y)
+  end
 
+  def is_occupied?(x, y)
+    game.pieces.where(pos_x: x, pos_y: y, active: true).present?
+  end
+
+  def can_move_without_capture?(start_pos,dest_pos)
+  	start_x, start_y = start_pos
+  	dest_x, dest_y = dest_pos
+    !is_obstructed?([start_x, start_y],[dest_x, dest_y]) && !is_occupied?(dest_x, dest_y) && valid_move?([dest_x, dest_y])
+  end
+
+  def can_move_with_capture?(start_pos,dest_pos)
+		start_x, start_y = start_pos
+  	dest_x, dest_y = dest_pos
+  	dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
+  	return (
+  		!is_obstructed?([start_x, start_y],[dest_x, dest_y]) && 
+  		is_occupied?(dest_x, dest_y) &&
+  		#valid_move?([dest_x, dest_y]) &&
+  		dest_piece.color != color 
+  	)
+  end
+
+  def move_to!(start_pos, dest_pos)
+  	dest_x, dest_y = dest_pos
+    if can_move_without_capture?(start_pos, dest_pos)
+        update_attributes(pos_x: dest_x, pos_y: dest_y)
+    elsif can_move_with_capture?(start_pos, dest_pos)
+    		dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
+    		dest_piece.update_attributes(active: false)
+    		update_attributes(pos_x: dest_x, pos_y: dest_y)
+    		captured = true
+    else 
+    	captured = false
+    end
+  end
  
-   	
+  def can_castle_kingside?(rook, king)
+		return false if rook.created_at != rook.updated_at
+		return false if king.created_at != king.updated_at
+		return false if rook.is_obstructed?(rook.current_pos, [king.pos_x - 1, king.pos_y])
+		return true
+  end
+
+  def can_castle_queenside?(rook, king)
+		return false if rook.created_at != rook.updated_at
+		return false if king.created_at != king.updated_at
+		return false if rook.is_obstructed?(rook.current_pos, [king.pos_x + 1, king.pos_y])
+		return true
+  end
+
+  def castle_kingside!(rook, king)
+  	king.update_attributes(:pos_x => 0)
+  	rook.update_attributes(:pos_x => 3)
+  end
+
+  def castle_queenside!(rook, king)
+  	king.update_attributes(:pos_x => 7)
+  	rook.update_attributes(:pos_x => 3)
   end
 
 end
