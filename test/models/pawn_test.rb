@@ -140,8 +140,6 @@ class PawnTest < ActiveSupport::TestCase
     pawn_white.update_attributes(:pos_x => 5, :pos_y => 3)
     pawn_black.update_attributes(:pos_x => 4, :pos_y => 3)
     can_capture = pawn_white.can_capture_en_passant(pawn_black)
-    puts pawn_black.updated_at
-    puts game.updated_at
     assert can_capture
   end
 

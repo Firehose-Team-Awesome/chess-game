@@ -11,7 +11,7 @@ class Pawn < Piece
 
 	#determine if pawn can capture opposing pawn en passant
 	def can_capture_en_passant(opponent_pawn)
-		if opponent_pawn.updated_at == game.updated_at && opponent_pawn.en_passant == true 
+		if opponent_pawn.updated_at > self.game.updated_at && opponent_pawn.en_passant == true 
 			return true
 		else
 			return false
