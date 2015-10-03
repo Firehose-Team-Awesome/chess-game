@@ -9,6 +9,7 @@ class PiecesController < ApplicationController
     @piece = Piece.find(params[:id])
     @game = @piece.game
     @color = @piece.color
+    @last_move = Piece.order(:updated_at).last.color
 
     if @color == 0
     	@color = 'white'
@@ -16,12 +17,18 @@ class PiecesController < ApplicationController
     	@color = 'black'
     end
 
+    if @last_move == 0
+      @last_move = 'white'
+    else
+      @last_move = 'black'
+    end
+
     pos_x = params[:pos_x].to_i
     pos_y = params[:pos_y].to_i
     valid_move = false
 
     Piece.transaction do
-      if @piece.valid_move?([pos_x, pos_y])
+      if @piece.valid_move?([pos_x, pos_y]) && @last_move != @color
         valid_move = true
         @piece.do_move!(pos_x, pos_y)
       else
@@ -34,7 +41,7 @@ class PiecesController < ApplicationController
         redirect_to game_path(@game)  # redirect to game show page
       end
       format.json do
-        json_result = {valid: true, active: @piece.active, captured: @piece.captured, not_color: @color}
+        json_result = {valid: valid_move, active: @piece.active, captured: @piece.captured, not_color: @color}
         render json: json_result
       end
     end
