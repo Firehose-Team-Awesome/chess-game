@@ -105,12 +105,14 @@ class Piece < ActiveRecord::Base
   def can_move_without_capture?(start_pos,dest_pos)
   	start_x, start_y = start_pos
   	dest_x, dest_y = dest_pos
+  	#debugger
     !is_obstructed?([start_x, start_y],[dest_x, dest_y]) && !is_occupied?(dest_x, dest_y) && valid_move?([dest_x, dest_y])
   end
 
   def can_move_with_capture?(start_pos,dest_pos)
 		start_x, start_y = start_pos
   	dest_x, dest_y = dest_pos
+  	#debugger
   	dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
   	return (
   		!is_obstructed?([start_x, start_y],[dest_x, dest_y]) && 
@@ -122,6 +124,7 @@ class Piece < ActiveRecord::Base
 
   def move_to!(start_pos, dest_pos)
   	dest_x, dest_y = dest_pos
+  	#debugger
     if can_move_without_capture?(start_pos, dest_pos)
         update_attributes(pos_x: dest_x, pos_y: dest_y)
     elsif can_move_with_capture?(start_pos, dest_pos)

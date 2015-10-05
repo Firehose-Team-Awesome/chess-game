@@ -30,7 +30,7 @@ class PiecesController < ApplicationController
     Piece.transaction do
       if @piece.valid_move?([pos_x, pos_y]) && @last_move != @color
         valid_move = true
-        @piece.do_move!(pos_x, pos_y)
+        @piece.move_to!([@piece.pos_x, @piece.pos_y],[pos_x, pos_y])
       else
         valid_move = false
       end
