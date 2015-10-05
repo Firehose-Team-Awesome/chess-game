@@ -18,9 +18,25 @@ class GamesController < ApplicationController
 		redirect_to game_path(@game)
 	end
 
+	def new
+
+  	@game = Game.new
+
+	end
+
+	def create
+
+  	@game = current_user.games.create(game_params)
+	  if @game.valid?
+      redirect_to game_path(@game)
+    else
+      render :new, :status => :unprocessable_entity
+    end
+  end
+
 	private
 
 	def game_params
-		params.require(:game).permit(:black_uid)
+		params.require(:game).permit(:black_uid, :white_uid, :game_name).merge(:white_uid => current_user.id)
 	end
 end

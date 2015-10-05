@@ -25,7 +25,7 @@
 
 						<div>
 						  <%= simple_form_for game do |f| %>
-								<%= f.hidden_field :black_uid, :value => 2 %> <!-- UPDATE VALUE FROM '2' to 'current_user.id' -->
+						  	<%= f.hidden_field :black_uid, :value => current_user.id %> <!-- UPDATE VALUE FROM '2' to 'current_user.id' -->
 								<%= f.submit 'Join', :class => 'btn btn-primary' %>
 							<% end %>
 						</div>

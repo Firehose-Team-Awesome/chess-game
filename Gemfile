@@ -4,7 +4,7 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem 'simple_form'
 gem 'rubocop', require: false
 gem 'devise', '>= 3.2.4'
-
+gem 'debugger'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

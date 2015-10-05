@@ -43,10 +43,19 @@
                       alert("Invalid move. Try again.");
                       window.location.reload();
                     }
-                    if (data.valid === true) {
+                    else if (data.valid === true && data.captured === true) {
+                      alert(data.not_color + " piece captured");
+                      window.location.reload();
+                    }
+                    else if (data.valid === true) {
                       alert("It is now "+ data.not_color + " player's turn.");
                       window.location.reload();
                     }
+                    else {
+                      alert("Somethings broken: " + data.valid + data.not_color + data.captured + data.active);
+                      window.location.reload();
+                    }
+
                 }); //post
        } //drop
      }); //droppable
