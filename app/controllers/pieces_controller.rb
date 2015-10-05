@@ -23,7 +23,7 @@ class PiecesController < ApplicationController
     Piece.transaction do
       if @piece.valid_move?([pos_x, pos_y])
         valid_move = true
-        @piece.do_move!(pos_x, pos_y)
+        @piece.move_to!([@piece.pos_x, @piece.pos_y],[pos_x, pos_y])
       else
         valid_move = false
       end
@@ -34,7 +34,7 @@ class PiecesController < ApplicationController
         redirect_to game_path(@game)  # redirect to game show page
       end
       format.json do
-        json_result = {valid: true, active: @piece.active, captured: @piece.captured, not_color: @color}
+        json_result = {valid: valid_move, active: @piece.active, captured: @piece.captured, not_color: @color}
         render json: json_result
       end
     end
