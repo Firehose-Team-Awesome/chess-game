@@ -115,7 +115,7 @@ class Piece < ActiveRecord::Base
   	return (
   		!is_obstructed?([start_x, start_y],[dest_x, dest_y]) && 
   		is_occupied?(dest_x, dest_y) &&
-  		#valid_move?([dest_x, dest_y]) &&
+  		valid_move?([dest_x, dest_y]) &&
   		dest_piece.color != color 
   	)
   end

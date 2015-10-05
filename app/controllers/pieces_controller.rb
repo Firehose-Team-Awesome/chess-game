@@ -11,13 +11,13 @@ class PiecesController < ApplicationController
     @color = @piece.color
     @last_move = Piece.order(:updated_at).last.color
 
-    if @color == 0
+    if @color == Piece::COLORS[:black]
     	@color = 'white'
     else
     	@color = 'black'
     end
 
-    if @last_move == 0
+    if @last_move == Piece::COLORS[:black]
       @last_move = 'white'
     else
       @last_move = 'black'
