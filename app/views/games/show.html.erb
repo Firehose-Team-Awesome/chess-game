@@ -28,6 +28,7 @@
      $( ".draggable" ).draggable();
      activeClass: "ui-state-highlight",
      $( "td" ).droppable({
+       hoverClass: "highlight",
        drop: function( event, ui ) {
          //make piece snappable to the destination
          $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
