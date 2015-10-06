@@ -9,11 +9,18 @@ class PiecesController < ApplicationController
     @piece = Piece.find(params[:id])
     @game = @piece.game
     @color = @piece.color
+    @last_move = Piece.order(:updated_at).last.color
 
-    if @color == 0
+    if @color == Piece::COLORS[:black]
     	@color = 'white'
     else
     	@color = 'black'
+    end
+
+    if @last_move == Piece::COLORS[:black]
+      @last_move = 'white'
+    else
+      @last_move = 'black'
     end
 
     pos_x = params[:pos_x].to_i
@@ -21,7 +28,7 @@ class PiecesController < ApplicationController
     valid_move = false
 
     Piece.transaction do
-      if @piece.valid_move?([pos_x, pos_y])
+      if @piece.valid_move?([pos_x, pos_y]) && @last_move != @color
         valid_move = true
         @piece.move_to!([@piece.pos_x, @piece.pos_y],[pos_x, pos_y])
       else

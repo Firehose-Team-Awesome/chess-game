@@ -5,6 +5,13 @@ class GamesController < ApplicationController
     @pieces = @game.pieces
     @black_player = User.find_by(id: @game.black_uid)
     @white_player = User.find_by(id: @game.white_uid)
+    if @game.is_color_in_check?(Piece::COLORS[:black]) && @game.is_color_in_check?(Piece::COLORS[:white])
+      flash[:notice] = "Both players are in check." 
+    elsif @game.is_color_in_check?(Piece::COLORS[:black])
+      flash[:notice] = "Black player is in check." 
+    elsif @game.is_color_in_check?(Piece::COLORS[:white])
+      flash[:notice] = "White player is in check." 
+    end  
   end
 
 	def edit
