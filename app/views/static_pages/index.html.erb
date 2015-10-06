@@ -9,7 +9,7 @@
 			</h2>
 
 			<br />
-
+			<% if user_signed_in? %>
 			<% if @open_games.length == 0 %>
 				<h3><em>Sorry, there are no open games.</em></h3>
 			<% else %>
@@ -34,6 +34,7 @@
 					  <div class='clear'></div>
 					  <hr />
 				<% end %>
+			<% end %>
 			<% end %>
 		</div>
 </div>
