@@ -7,7 +7,7 @@
         <tr>
           <% 0.upto(7) do |col| %>
             <td id='<%= "#{col}-#{row}" %>'>
-              <% @pieces.each do |piece| %>
+              <% @pieces.where(active: true).each do |piece| %>
                 <% if piece.pos_x == col && piece.pos_y == row %>
                   <%= link_to image_tag(piece.image, class: 'img-responsive piece'), piece_path(piece), class: 'piece_a draggable', remote: true %>
                 <% end %>
