@@ -19,8 +19,10 @@ class PiecesController < ApplicationController
 
     if @last_move == Piece::COLORS[:black]
       @last_move = 'white'
+      flash[:notice] = "It is black player's turn." 
     else
       @last_move = 'black'
+      flash[:notice] = "It is white player's turn." 
     end
 
     pos_x = params[:pos_x].to_i
