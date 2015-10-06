@@ -124,17 +124,22 @@ class Piece < ActiveRecord::Base
 
   def move_to!(start_pos, dest_pos)
   	dest_x, dest_y = dest_pos
+  	captured = false
+  	pos_occuppied = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
   	#debugger
-    if can_move_without_capture?(start_pos, dest_pos)
-        update_attributes(pos_x: dest_x, pos_y: dest_y)
-    elsif can_move_with_capture?(start_pos, dest_pos)
+    if !pos_occuppied.blank? 
+    	#debugger
+      if can_move_with_capture?(start_pos, dest_pos)
     		dest_piece = game.pieces.find_by(pos_x: dest_x, pos_y: dest_y, active: true)
     		dest_piece.update_attributes(active: false)
     		update_attributes(pos_x: dest_x, pos_y: dest_y)
     		captured = true
-    else 
-    	captured = false
+    	end
+    elsif can_move_without_capture?(start_pos, dest_pos)
+        update_attributes(pos_x: dest_x, pos_y: dest_y)
+        captured = true
     end
+    return captured
   end
  
   def can_castle_kingside?(rook, king)
