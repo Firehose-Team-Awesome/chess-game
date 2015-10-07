@@ -206,7 +206,6 @@ class Game < ActiveRecord::Base
                   return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_x, i])
                 end
               end
-            end
             #checking horizontal moving pieces
             elsif king.pos_y - opposite_piece.pos_y == 0
               if king.pos_x < opposite_piece.pos_x
@@ -218,7 +217,6 @@ class Game < ActiveRecord::Base
                   return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_y, i])
                 end
               end
-            end
             #checking diagonal moving pieces
             elsif (king.pos_y - opposite_piece.pos_y).abs == (king.pos_x - opposite_piece.pos_x).abs
               if king.pos_x < opposite_piece.pos_x
@@ -231,7 +229,7 @@ class Game < ActiveRecord::Base
                 end
               end
             end
-            
+
           end
         end
 	  	end
