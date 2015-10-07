@@ -11,7 +11,7 @@ class GamesController < ApplicationController
       flash[:notice] = "Black player is in check." 
     elsif @game.is_color_in_check?(Piece::COLORS[:white])
       flash[:notice] = "White player is in check." 
-    end  
+    end
   end
 
 	def edit
@@ -29,11 +29,11 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @black_player = User.find_by(id: @game.black_uid)
     @white_player = User.find_by(id: @game.white_uid)
-    @current_player = User.find(params[:id])
-    if @black_player == @current_player
-      @game.winner_id = @white_player
-    else
-      @game.winner_id = @black_player
+    @current_player = current_user.id
+      if @black_player == @current_player
+        @game.winner_id = @white_player
+      else
+        @game.winner_id = @black_player
     end
     @game.update_attributes(winner_params)
   end

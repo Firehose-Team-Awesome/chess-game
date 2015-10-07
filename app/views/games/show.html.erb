@@ -1,6 +1,6 @@
 <div class="col-xs-10 col-xs-offset-1">
   <%= simple_form_for @game do |f| %>
-    <%= f.hidden_field :winner_id, :value => @winner_id %> <!-- UPDATE VALUE FROM '2' to 'current_user.id' -->
+    <%= f.hidden_field :winner_id, :value => @game.winner_id %>
     <%= f.submit 'concede', :class => 'btn btn-danger' %>
   <% end %>
 
