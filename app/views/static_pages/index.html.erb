@@ -9,7 +9,7 @@
 			</h2>
 
 			<br />
-
+			<% if user_signed_in? %>
 			<% if @open_games.length == 0 %>
 				<h3><em>Sorry, there are no open games.</em></h3>
 			<% else %>
@@ -25,7 +25,7 @@
 
 						<div>
 						  <%= simple_form_for game do |f| %>
-								<%= f.hidden_field :black_uid, :value => 2 %> <!-- UPDATE VALUE FROM '2' to 'current_user.id' -->
+						  	<%= f.hidden_field :black_uid, :value => current_user.id %> <!-- UPDATE VALUE FROM '2' to 'current_user.id' -->
 								<%= f.submit 'Join', :class => 'btn btn-primary' %>
 							<% end %>
 						</div>
@@ -34,6 +34,7 @@
 					  <div class='clear'></div>
 					  <hr />
 				<% end %>
+			<% end %>
 			<% end %>
 		</div>
 </div>

@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150929024247) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "image"
+    t.boolean  "en_passant"
   end
 
   create_table "users", force: true do |t|
