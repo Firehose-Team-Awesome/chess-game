@@ -165,5 +165,78 @@ class Game < ActiveRecord::Base
 	  end
 	  return in_check
 	end
+
+	def is_color_in_checkmate?(test_color)
+		#This assumes that is_color_in_check? method has already been called on piece.
+    #If this method returns false, call is_color_in_check? again after the move has been made, and if it is still in check, end the game.
+		king = self.pieces.find_by(:type => 'King', :color => test_color)
+		#First check if king has any open moves.
+		-1.upto(1) do |i|
+			-1.upto(1) do |j|
+				return false if king.can_move_without_capture?([pos_x, pos_y], [pos_x + i, pos_y + j]) || king.can_move_with_capture?([pos_x, pos_y], [pos_x + i, pos_y + j])
+			end
+		end
+
+		#Next check if a friendly piece can capture the piece or block capture.
+		if test_color == Piece::COLORS[:black]
+	  	opposite_pieces = self.pieces.where(:color => 1, :active => true)
+      friendly_pieces = self.pieces.where(:color => 0, :active => true)
+	  else
+	  	opposite_pieces = self.pieces.where(:color => 0, :active => true)
+      friendly_pieces = self.pieces.where(:color => 1, :active => true)
+	  end
+    king_pos = [king.pos_x, king.pos_y]
+	  opposite_pieces.each do |opposite_piece|
+	  	start_pos_opposite = [opposite_piece.pos_x, opposite_piece.pos_y]	
+      #check if piece can capture blocked piece  	
+	  	if opposite_piece.can_move_with_capture?(start_pos_opposite, king_pos)
+	  		friendly_pieces.each do |friendly_piece|
+          start_pos_friendly = [friendly_piece.pos_x, friendly_piece.pos_y]
+          if friendly_piece.can_move_with_capture?(start_pos_friendly, start_pos_opposite)
+            return false
+          else
+            #checking vertical moving pieces
+            if king.pos_x - opposite_piece.pos_x == 0
+              if king.pos_y < opposite_piece.pos_y
+                (king.pos_y..opposite_piece.pos_y).each do |i|
+                  return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_x, i])
+                end
+              elsif king.pos_y > opposite_piece.pos_y
+                (opposite_piece.pos_y..king.pos_y).each do |i|
+                  return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_x, i])
+                end
+              end
+            end
+            #checking horizontal moving pieces
+            elsif king.pos_y - opposite_piece.pos_y == 0
+              if king.pos_x < opposite_piece.pos_x
+                (king.pos_x..opposite_piece.pos_x).each do |i|
+                  return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_y, i])
+                end
+              elsif king.pos_x > opposite_piece.pos_x
+                (opposite_piece.pos_x..king.pos_x).each do |i|
+                  return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_y, i])
+                end
+              end
+            end
+            #checking diagonal moving pieces
+            elsif (king.pos_y - opposite_piece.pos_y).abs == (king.pos_x - opposite_piece.pos_x).abs
+              if king.pos_x < opposite_piece.pos_x
+                (king.pos_x..opposite_piece.pos_x).each do |i|
+                  return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_y, i])
+                end
+              elsif king.pos_x > opposite_piece.pos_x
+                (opposite_piece.pos_x..king.pos_x).each do |i|
+                  return false if friendly_piece.can_move_without_capture?(start_pos_friendly, [opposite_piece.pos_y, i])
+                end
+              end
+            end
+            
+          end
+        end
+	  	end
+	  end
+	end
+
 end
 
